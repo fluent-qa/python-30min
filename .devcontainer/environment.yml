@@ -1,0 +1,5 @@
+name: pyqa-30min
+channels:
+ - defaults
+dependencies:
+- python=3.11
