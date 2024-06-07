@@ -1,18 +1,20 @@
 [project]
-name = "python-30min"
+name = "revisited"
 version = "0.1.0"
 description = "30 minutes of Python"
 authors = [
     { name = "fluent-qa team", email = "fluent-qa@fluentqa.com" },
 ]
-dependencies = []
+dependencies = [
+    "pydantic>=2.7.3",
+]
 requires-python = ">=3.11"
 readme = "README.md"
 license = { text = "MIT" }
 
 
 [tool.poetry]
-name = "python-30min"
+name = "revisited"
 version = "0.1.0"
 description = ""
 authors = ["fluent-qa  <fluent-qa@fluentqa.com>"]
@@ -26,6 +28,7 @@ python = "^3.11"
 
 [tool.pdm]
 distribution = false
+#plugins = ["pdm-mina"]
 
 [tool.pdm.dev-dependencies]
 lint = [
@@ -51,14 +54,18 @@ fmt = "ruff format ."
 docs = "mkdocs serve"
 docs-deploy ="mkdocs gh-deploy --force"
 cleanup ="rm -rf site/"
-
+test="pytest"
 #[build-system]
 #requires = ["poetry-core"]
 #build-backend = "poetry.core.masonry.api"
 
 [build-system]
-requires = ["pdm-backend", "pdm-polylith-workspace"]
+requires = ["mina-build>=0.2.5"]
 build-backend = "pdm.backend"
+
+#[build-system]
+#requires = ["pdm-backend", "pdm-polylith-workspace"]
+#build-backend = "pdm.backend"
 
 [[tool.poetry.source]]
 name = "douban"
