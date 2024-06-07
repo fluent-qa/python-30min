@@ -49,6 +49,8 @@ url = "https://pypi.tuna.tsinghua.edu.cn/simple/"
 lint = "ruff ."
 fmt = "ruff format ."
 docs = "mkdocs serve"
+docs-deploy ="mkdocs gh-deploy --force"
+cleanup ="rm -rf site/"
 
 #[build-system]
 #requires = ["poetry-core"]
