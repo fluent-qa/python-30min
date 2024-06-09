@@ -7,6 +7,12 @@ authors = [
 ]
 dependencies = [
     "pydantic>=2.7.3",
+    "httpx>=0.27.0",
+    "langchain>=0.2.3",
+    "langchain-openai>=0.1.8",
+    "langserve[all]>=0.2.1",
+    "streamlit>=1.35.0",
+    "python-dotenv>=1.0.1",
 ]
 requires-python = ">=3.11"
 readme = "README.md"
@@ -53,7 +59,7 @@ lint = "ruff ."
 fmt = "ruff format ."
 docs = "mkdocs serve"
 docs-deploy ="mkdocs gh-deploy --force"
-cleanup ="rm -rf site/"
+cleanup ="rm -rf site __pycache__"
 test="pytest"
 #[build-system]
 #requires = ["poetry-core"]
