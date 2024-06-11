@@ -37,6 +37,7 @@ python = "^3.11"
 
 
 
+pydantic-settings = "^2.3.1"
 [tool.pdm]
 distribution = false
 #plugins = ["pdm-mina"]

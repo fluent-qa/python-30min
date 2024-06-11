@@ -1,4 +1,4 @@
-from revisited import gen
+import prompts_generator as gen
 
 
 def test_generate_remote_prompts():
