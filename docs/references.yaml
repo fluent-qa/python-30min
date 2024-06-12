@@ -25,6 +25,8 @@ blogs:
   - https://github.com/palewire/python-open-source-template.git
 podcast:
   - https://www.pythonpodcast.com/
+  - https://www.educative.io/
+  - https://superfastpython.com/
 pytest_plugin:
   - https://github.com/pytest-dev/pytest-order
   - https://pytest-dependency.readthedocs.io/
