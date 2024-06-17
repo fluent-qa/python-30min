@@ -29,6 +29,11 @@ dependencies = [
     "pyright>=1.1.367",
     "pretzelai>=4.2.5",
     "jupyter-notebook-parser>=0.1.4",
+    "voici>=0.6.1",
+    "nbdev>=2.3.25",
+    "bokeh>=3.4.1",
+    "marimo>=0.6.19",
+    "nbconvert[test]>=7.16.4",
 ]
 requires-python = ">=3.11"
 readme = "README.md"
