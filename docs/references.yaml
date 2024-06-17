@@ -23,6 +23,7 @@ blogs:
   - https://www.geeksforgeeks.org/python3-tutorial/?ref=shm
   - https://github.com/realpython/materials/tree/master
   - https://github.com/palewire/python-open-source-template.git
+  - https://help.rainforestqa.com/docs/who-should-own-qa
 podcast:
   - https://www.pythonpodcast.com/
   - https://www.educative.io/
@@ -31,6 +32,25 @@ pytest_plugin:
   - https://github.com/pytest-dev/pytest-order
   - https://pytest-dependency.readthedocs.io/
 
-
+prompts:
+  - https://www.promptingguide.ai/zh/introduction/settings
 trends:
+  - https://news.miracleplus.com/feeds?tab=hot
+  - https://hub.baai.ac.cn/events
+  - https://aibard123.com/
   - https://piptrends.com/
+  - https://refto.one/
+  - https://xiaohu.ai/
+  - https://xbai.ai/
+  - https://www.aihunt.one/
+  - https://topai.tools/
+  - https://www.plusdocs.com/
+  - https://gapis.money/
+  - https://www.toolify.ai/zh/
+carbon:
+  - https://www.epmap.org/
+  - http://openkg.cn/data/
+  - https://briefgpt.xyz/lm
+  - https://navi.co2.press/index.html
+TODO:
+  - https://github.com/AICodeHunt
