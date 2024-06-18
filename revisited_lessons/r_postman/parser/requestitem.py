@@ -4,11 +4,10 @@ from .request import Request
 from .response import Response
 
 
-class RequestItem(object):
+class RequestItem:
     def __init__(self, requestitem=None):
         if (requestitem is None) or (
-            not isinstance(requestitem, dict)
-            or (not is_requestitem(requestitem))
+            not isinstance(requestitem, dict) or (not is_requestitem(requestitem))
         ):
             raise RequestItemParserException("Not a valid request")
         self.requestitem = requestitem

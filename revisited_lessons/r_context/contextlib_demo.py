@@ -1,11 +1,11 @@
-class MyDemoHandler():
+class MyDemoHandler:
     def __init__(self, fname, method):
         self.fname = fname
         self.method = method
         self.file_object = open(self.fname, method)
 
     def __enter__(self):
-        print('enter')
+        print("enter")
         return self.file_object
 
     def __exit__(self, exc_type, exc_val, exc_tb):
@@ -13,7 +13,7 @@ class MyDemoHandler():
         self.file_object.close()
 
 
-with MyDemoHandler('test.txt', 'w') as fn:
+with MyDemoHandler("test.txt", "w") as fn:
     print("in the with block")
     print("do something")
 

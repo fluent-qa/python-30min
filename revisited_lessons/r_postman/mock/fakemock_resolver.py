@@ -1,16 +1,19 @@
-import random, json
-from faker import Faker
-from connexion.mock import MockResolver
-from ..utils import strip_charset, sanitized
-from connexion.utils import all_json
-from connexion.http_facts import FORM_CONTENT_TYPES
+import random
+
 from connexion.apis.flask_api import FlaskApi
+from connexion.http_facts import FORM_CONTENT_TYPES
+from connexion.mock import MockResolver
+from connexion.utils import all_json
+from faker import Faker
+
+from ..utils import sanitized, strip_charset
+
 
 class FakerMockResolver(MockResolver):
     def __init__(self, mock_all):
         super().__init__(mock_all)
         self.faker = Faker()
-    
+
     def example_resolver(self, operation):
         linked_responses = []
 
@@ -29,63 +32,77 @@ class FakerMockResolver(MockResolver):
         except AttributeError:
             query = dict(request.query.items())
 
-        content_type_header = request.headers.get('Content-Type')
-        content_type_header = content_type_header or request.headers.get('Accept', '*/*')
+        content_type_header = request.headers.get("Content-Type")
+        content_type_header = content_type_header or request.headers.get(
+            "Accept", "*/*"
+        )
         content_type_header = strip_charset(content_type_header)
 
         # first priority - Request body
         if request_body:
             try:
-                operation_request_body = operation.request_body['content'][content_type_header]
-                for item in operation_request_body.get('x-link-response'):
-                    if dict(item.get('value')) ==  request_body:
-                        linked_responses.append(item.get('x-response-id'))
+                operation_request_body = operation.request_body["content"][
+                    content_type_header
+                ]
+                for item in operation_request_body.get("x-link-response"):
+                    if dict(item.get("value")) == request_body:
+                        linked_responses.append(item.get("x-response-id"))
             except KeyError:
                 pass
-        
+
         # second priority - Query params
         if query:
-            query_params = filter(lambda x: x.get('in') == 'query', operation.parameters)
+            query_params = filter(
+                lambda x: x.get("in") == "query", operation.parameters
+            )
             for param in query_params:
-                param_val = query.get(param.get('name'), None)
+                param_val = query.get(param.get("name"), None)
                 if param_val is not None:
-                    for item in param.get('x-link-response'):
-                        if item.get('value') in  param_val:
-                            linked_responses.append(item.get('x-response-id'))
-        
+                    for item in param.get("x-link-response"):
+                        if item.get("value") in param_val:
+                            linked_responses.append(item.get("x-response-id"))
+
         # third priority - Headers
         if content_type_header:
-            header_params = filter(lambda x: x.get('in') == 'header', operation.parameters)
+            header_params = filter(
+                lambda x: x.get("in") == "header", operation.parameters
+            )
             for param in header_params:
-                if param.get('name').lower() in ['accept', 'content-type']:
-                    for item in param.get('x-link-response'):
-                        if item.get('value') ==  content_type_header:
-                            linked_responses.append(item.get('x-response-id'))
+                if param.get("name").lower() in ["accept", "content-type"]:
+                    for item in param.get("x-link-response"):
+                        if item.get("value") == content_type_header:
+                            linked_responses.append(item.get("x-response-id"))
 
         return linked_responses
 
     def _fake(self, schema, example=None):
         # use faker to generate fake data from jsonschema
-        example = example or schema.get('example')
+        example = example or schema.get("example")
 
-        if 'oneOf' in schema:
-            return self._fake(schema['oneOf'][random.randint(0, (len(schema['oneOf']) - 1))], example)
-        
-        if ('additionalProperties' in schema) or (schema == {}):
-            return example or getattr(self.faker, 'pydict')()
+        if "oneOf" in schema:
+            return self._fake(
+                schema["oneOf"][random.randint(0, (len(schema["oneOf"]) - 1))], example
+            )
+
+        if ("additionalProperties" in schema) or (schema == {}):
+            return example or self.faker.pydict()
 
         if schema["type"].lower() == "array":
-            if isinstance(example, list) and  len(example):
-                return [self._fake(schema["items"], example[i]) for i in range(len(example))]
+            if isinstance(example, list) and len(example):
+                return [
+                    self._fake(schema["items"], example[i]) for i in range(len(example))
+                ]
             else:
                 return [self._fake(schema["items"]) for i in range(2)]
 
         if schema["type"].lower() == "object":
             if example:
-                return {k: self._fake(v, example.get(k)) for k, v in schema["properties"].items()}
+                return {
+                    k: self._fake(v, example.get(k))
+                    for k, v in schema["properties"].items()
+                }
             else:
                 return {k: self._fake(v) for k, v in schema["properties"].items()}
-            
 
         if "enum" in schema:
             # if enum, just choose one of enum items at random
@@ -104,13 +121,13 @@ class FakerMockResolver(MockResolver):
         return getattr(self.faker, schema.get("type", "word"))()
 
     def example_filter(self, schema, response_id):
-        if 'examples' in schema:
-            for name, example in schema['examples'].items():
-                if example.get('x-response-id') == response_id:
-                    return example.get('value')
-        elif 'example' in schema:
-            if schema['example'].get('x-response-id') == response_id:
-                return schema['example'].get('value')
+        if "examples" in schema:
+            for name, example in schema["examples"].items():
+                if example.get("x-response-id") == response_id:
+                    return example.get("value")
+        elif "example" in schema:
+            if schema["example"].get("x-response-id") == response_id:
+                return schema["example"].get("value")
         return None
 
     def mock_operation(self, operation, *args, **kwargs):
@@ -118,12 +135,14 @@ class FakerMockResolver(MockResolver):
         linked_responses = self.example_resolver(operation)
 
         if len(linked_responses):
-            linked_response = linked_responses[random.randint(0, (len(linked_responses) - 1))]
+            linked_response = linked_responses[
+                random.randint(0, (len(linked_responses) - 1))
+            ]
             for code, response in operation.responses.items():
-                for media_type, schema in response['content'].items():
+                for media_type, schema in response["content"].items():
                     _example = self.example_filter(schema, linked_response)
                     status_code = code
-        
+
         if not _example:
             _example, status_code = operation.example_response()
 
@@ -135,6 +154,6 @@ class FakerMockResolver(MockResolver):
 
         if _example:
             return _example, status_code
-        
-        #If there are no example,  we try to fake from schema
+
+        # If there are no example,  we try to fake from schema
         return self._fake(_schema or {}), status_code

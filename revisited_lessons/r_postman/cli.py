@@ -1,11 +1,12 @@
 import json
-import click
 import os
 
+import click
+
 from . import from_collection
-from .spec import Spec
 from .mock import Mock
 from .parser import CollectionParser
+from .spec import Spec
 
 
 @click.group(help="Convert or mock your postman collection to openapi schema")
@@ -45,9 +46,7 @@ def convert(format, ignore, postmanfile, outfile):
         with open(outfile, "w") as f:
             f.write(formatted_spec)
         click.echo(
-            click.style(
-                f"Schema converted successfully to {outfile}!", fg="green"
-            )
+            click.style(f"Schema converted successfully to {outfile}!", fg="green")
         )
         return formatted_spec
 
@@ -56,9 +55,7 @@ def convert(format, ignore, postmanfile, outfile):
 
 
 @cli.command()
-@click.option(
-    "--host", "-h", default="127.0.0.1", help="Host Default: 127.0.0.1"
-)
+@click.option("--host", "-h", default="127.0.0.1", help="Host Default: 127.0.0.1")
 @click.option("--port", "-p", default=8080, help="Port Default: 8080")
 @click.option("--debug", "-D", default=False, help="Debug", is_flag=True)
 @click.argument("SPECFILE", required=True)

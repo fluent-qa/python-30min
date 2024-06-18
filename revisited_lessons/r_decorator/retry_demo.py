@@ -1,5 +1,4 @@
 import time
-from typing import Set
 
 import requests
 import retry
@@ -11,10 +10,10 @@ def retry_it(max_retries, wait_time):
             retries = 0
             if retries < max_retries:
                 try:
-                    print(f'Retry Function {func.__name__}{args} {kwargs} ')
+                    print(f"Retry Function {func.__name__}{args} {kwargs} ")
                     result = func(*args, **kwargs)
                     return result
-                except Exception as e:
+                except Exception:
                     retries += 1
                     time.sleep(wait_time)
             else:
@@ -30,7 +29,7 @@ def catch_it(exception_set):
         def wrapper(*args, **kwargs):
             try:
                 func(*args, **kwargs)
-            except exception_set as e:
+            except exception_set:
                 print("catch exception")
             return wrapper
 
@@ -40,14 +39,14 @@ def catch_it(exception_set):
 @retry_it(max_retries=5, wait_time=1)
 def example_function():
     # function that may raise an exception
-    print('Example function')
+    print("Example function")
 
 
 @retry.retry((ValueError, TypeError), delay=5, tries=6)
 def check_status(id):
     response = requests.get("https://www.baidu.com")
     if response.status_code == 200:
-        print(f'Status Code: {response.status_code}')
+        print(f"Status Code: {response.status_code}")
         raise ValueError("Response Value is 200, but not expected")
     else:
         return False
@@ -56,7 +55,7 @@ def check_status(id):
 @catch_it(Exception)
 @retry.retry((ZeroDivisionError, TypeError), delay=5, tries=6)
 def div_zero():
-    print('Divide Zero')
+    print("Divide Zero")
     return 1 / 0
 
 
@@ -69,7 +68,7 @@ def get_data(id):
     return response
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     example_function()
     try:
         check_status(1)

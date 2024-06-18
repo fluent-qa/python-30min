@@ -1,10 +1,10 @@
 from apispec import APISpec
+
 from .operation import Operation
 from .plugins import MultiOperationBuilderPlugin
 
 
-class Spec(object):
-
+class Spec:
     OPENAPI_VERSION = "3.0.0"
 
     def __init__(self, postman_collection):
@@ -46,7 +46,7 @@ class Spec(object):
             version=self.info.get("version"),
             openapi_version=self.openapi,
             plugins=[MultiOperationBuilderPlugin(references)],
-            **options
+            **options,
         )
 
         for requestitem in self.postman_collection.get_requestitems():

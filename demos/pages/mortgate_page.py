@@ -1,7 +1,7 @@
-import streamlit as st
-import pandas as pd
-import matplotlib.pyplot as plt
 import math
+
+import pandas as pd
+import streamlit as st
 
 st.title("Mortgage Repayments Calculator")
 

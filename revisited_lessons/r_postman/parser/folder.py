@@ -1,10 +1,9 @@
-import re
 from ..errors import FolderParserException, RequestParserException
-from ..utils import is_folder, is_request
+from ..utils import is_folder
 from .requestitem import RequestItem
 
 
-class Folder(object):
+class Folder:
     def __init__(self, folder=None):
         if (folder is None) or (
             not isinstance(folder, dict) or (not is_folder(folder))

@@ -1,7 +1,8 @@
-from fastapi import FastAPI
-from fastapi.staticfiles import StaticFiles
-from fastapi.responses import FileResponse
 import os
+
+from fastapi import FastAPI
+from fastapi.responses import FileResponse
+from fastapi.staticfiles import StaticFiles
 
 app = FastAPI()
 static_file_abspath = os.path.join(os.path.dirname(__file__), "static")
@@ -23,7 +24,7 @@ def index_html():
     return FileResponse(f"{static_file_abspath}/index.html")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     import uvicorn
 
     uvicorn.run(app, host="0.0.0.0", port=8001, log_level="debug")

@@ -50,10 +50,8 @@ packages = [{ from ='src',include = "revisited" }]
 
 [tool.poetry.dependencies]
 python = "^3.11"
-
-
-
 pydantic-settings = "^2.3.1"
+
 [tool.pdm]
 distribution = false
 #plugins = ["pdm-mina"]
@@ -71,17 +69,15 @@ docs = [
     "mkdocs-material>=9.5.26",
 ]
 pre-commit = []
-[[tool.pdm.source]]
-name = "tsinghua-mirrors"
-url = "https://pypi.tuna.tsinghua.edu.cn/simple/"
+
 
 
 [tool.pdm.scripts]
-lint = "ruff ."
+lint = "ruff . --unsafe-fixes"
 fmt = "ruff format ."
 docs = "mkdocs serve"
 docs-deploy ="mkdocs gh-deploy --force"
-cleanup ="rm -rf site __pycache__"
+cleanup ="rm -rf site __pycache__ .pdm-build"
 test="pytest"
 #[build-system]
 #requires = ["poetry-core"]
@@ -99,7 +95,6 @@ build-backend = "pdm.backend"
 name = "douban"
 url = "https://pypi.doubanio.com/simple/"
 priority = "supplemental"
-
 
 [[tool.poetry.source]]
 name = "mirrors"

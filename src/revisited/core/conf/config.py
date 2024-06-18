@@ -1,12 +1,15 @@
 import os
-from typing import Type
 
 from dynaconf import Dynaconf
 from pydantic import BaseModel
 
 settings = Dynaconf(
-    settings_file=["configs/settings.toml", "configs/.secrets.toml",
-                   "settings.toml", ".secrets.toml"],
+    settings_file=[
+        "configs/settings.toml",
+        "configs/.secrets.toml",
+        "settings.toml",
+        ".secrets.toml",
+    ],
     environment=True,
     load_dotenv=True,
     envvar_prefix=False,
@@ -22,7 +25,7 @@ def ensure_env_settings(conf: Dynaconf, env_name: str):
     conf.reload()
 
 
-def setting_to_model(setting: Dynaconf, model_type: Type[BaseModel]):
+def setting_to_model(setting: Dynaconf, model_type: type[BaseModel]):
     model_value = model_type()
     for model_field in model_type.model_fields:
         setattr(model_value, model_field, getattr(setting, model_field))

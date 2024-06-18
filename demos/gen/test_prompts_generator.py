@@ -11,13 +11,9 @@ def test_generate_remote_prompts():
         "PDM如何管理虚拟环境",
         "PDM如何高级应用",
         "PDM生命周期和Hook管理",
-
     ]
     for content in prompt_list:
-        result = gen.generate_remote_prompts(
-            doc_url=docs_url,
-            prompt=content
-        )
+        result = gen.generate_remote_prompts(doc_url=docs_url, prompt=content)
         output_title = f"""
         ---
         {result}

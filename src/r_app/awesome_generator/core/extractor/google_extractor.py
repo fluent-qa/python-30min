@@ -5,7 +5,11 @@ import requests
 from .models import GoogleSearchMode
 
 
-def search_google(keyword: str, mode: GoogleSearchMode = GoogleSearchMode.ARTICLES, max_results: int = 10):
+def search_google(
+    keyword: str,
+    mode: GoogleSearchMode = GoogleSearchMode.ARTICLES,
+    max_results: int = 10,
+):
     global websites_to_search
     global terms_to_search
     api_key = os.environ["GOOGLE_CLOUD_API_KEY"]
@@ -14,7 +18,9 @@ def search_google(keyword: str, mode: GoogleSearchMode = GoogleSearchMode.ARTICL
     # Create a combined query with the "site:" search operator
     base_query = f"{keyword}"
     base_query += " " + terms_to_search[mode]
-    site_specific_queries = " OR ".join([f"site:{site}" for site in websites_to_search[mode]])
+    site_specific_queries = " OR ".join(
+        [f"site:{site}" for site in websites_to_search[mode]]
+    )
     query = f"{base_query} {site_specific_queries}"
 
     # Endpoint for Google Custom Search
@@ -28,12 +34,14 @@ def search_google(keyword: str, mode: GoogleSearchMode = GoogleSearchMode.ARTICL
 
         # Parameters for the search query
         params = {
-            'key': api_key,
-            'cx': cse_id,
-            'q': query,
-            'num': 10 if (max_results - len(all_items)) > 10 else (max_results - len(all_items)),
+            "key": api_key,
+            "cx": cse_id,
+            "q": query,
+            "num": 10
+            if (max_results - len(all_items)) > 10
+            else (max_results - len(all_items)),
             # fetch remaining if less than 10
-            'start': start_index
+            "start": start_index,
         }
 
         # Make the API request
@@ -44,14 +52,18 @@ def search_google(keyword: str, mode: GoogleSearchMode = GoogleSearchMode.ARTICL
             results = response.json()
 
             # Extract the desired data
-            for item in results.get('items', []):
-                page_map = item.get('pagemap', {})
-                og_description = page_map.get('metatags', [{}])[0].get('og:description', '')
-                all_items.append({
-                    'title': item['title'],
-                    'link': item['link'],
-                    'description': item['snippet'] + ' ' + og_description
-                })
+            for item in results.get("items", []):
+                page_map = item.get("pagemap", {})
+                og_description = page_map.get("metatags", [{}])[0].get(
+                    "og:description", ""
+                )
+                all_items.append(
+                    {
+                        "title": item["title"],
+                        "link": item["link"],
+                        "description": item["snippet"] + " " + og_description,
+                    }
+                )
         else:
             print(f"Error {response.status_code}: {response.text}")
             break
@@ -99,11 +111,11 @@ def search_google_for_slides_or_presentations(keyword: str, max_results: int = 1
 
 
 if __name__ == "__main__":
-    search_query = 'Auto-GPT'
+    search_query = "Auto-GPT"
     articles = search_google(search_query)
     # Print the results
     for article in articles:
-        print(article['title'])
-        print(article['link'])
-        print(article['description'])
-        print('-' * 80)
+        print(article["title"])
+        print(article["link"])
+        print(article["description"])
+        print("-" * 80)

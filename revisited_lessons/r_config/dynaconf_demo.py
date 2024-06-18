@@ -1,9 +1,4 @@
 import os
-from typing import Optional, Type
-
-from dynaconf import Dynaconf
-from pydantic import BaseModel
-
 from typing import Any
 
 from dynaconf import Dynaconf
@@ -87,8 +82,12 @@ class Config(DynaconfConfig, extra="forbid", validate_default=True):
 # settings = Config(**dynaconf_settings)
 
 dynaconf_settings = Dynaconf(
-    settings_file=["configs/settings.toml", "configs/.secrets.toml",
-                   "settings.toml", ".secrets.toml"],
+    settings_file=[
+        "configs/settings.toml",
+        "configs/.secrets.toml",
+        "settings.toml",
+        ".secrets.toml",
+    ],
     environment=True,
     load_dotenv=True,
     envvar_prefix=False,
@@ -105,23 +104,23 @@ def ensure_env_settings(env_name: str):
 
 
 class DynaSetting(BaseModel):
-    first_superuser_password: Optional[str] = None
+    first_superuser_password: str | None = None
 
 
-def setting_to_model(setting: Dynaconf, model_type: Type[BaseModel]):
+def setting_to_model(setting: Dynaconf, model_type: type[BaseModel]):
     result = model_type()
     for model in model_type.model_fields:
         setattr(result, model, getattr(setting, model))
     return result
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     print(dynaconf_settings.db_url)
     print(dynaconf_settings.PROJECT_NAME)
     print(dynaconf_settings.ENVVAR_PREFIX_FOR_DYNACONF)
     print(dynaconf_settings.ENV_SWITCHER_FOR_DYNACONF)
-    print(getattr(dynaconf_settings, "db_url"))
-    print(getattr(dynaconf_settings, "project_name"))
-    print(getattr(dynaconf_settings, "PROJECT_NAME"))
+    print(dynaconf_settings.db_url)
+    print(dynaconf_settings.project_name)
+    print(dynaconf_settings.PROJECT_NAME)
     result = setting_to_model(dynaconf_settings, DynaSetting)
     print(result.model_dump())

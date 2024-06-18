@@ -1,9 +1,9 @@
 from ..schema_converter import SchemaConvertor
-from ..utils import camelize, DEFAULT_STATUS_CODE
+from ..utils import DEFAULT_STATUS_CODE, camelize
 from .collector.response import ResponseCollector
 
 
-class Operation(object):
+class Operation:
     def __init__(self, request_item, ignorespec=None):
         self.request_item = request_item
         self.ignorespec = ignorespec
@@ -70,7 +70,7 @@ class Operation(object):
                 schema,
                 response.description,
                 response.body,
-                response_id = response.id
+                response_id=response.id,
             )
         return collector.collect()
 
@@ -88,11 +88,9 @@ class Operation(object):
             try:
                 for _name, _value in getattr(example_request, location).items():
                     if name == _name:
-                        links.append(
-                            {"value": _value, "x-response-id": response.id}
-                        )
+                        links.append({"value": _value, "x-response-id": response.id})
                         break
-            except AttributeError as e:
+            except AttributeError:
                 pass
         return links
 

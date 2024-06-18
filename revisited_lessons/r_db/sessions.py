@@ -1,12 +1,17 @@
+from collections.abc import AsyncGenerator
 from contextlib import asynccontextmanager
 from contextvars import ContextVar, Token
 from enum import Enum
-from typing import AsyncGenerator
 
-from sqlalchemy import Update, Delete, Insert, create_engine
-from sqlalchemy.ext.asyncio import create_async_engine, AsyncEngine, async_sessionmaker, AsyncSession, \
-    async_scoped_session
-from sqlalchemy.orm import Session, DeclarativeBase
+from sqlalchemy import Delete, Insert, Update, create_engine
+from sqlalchemy.ext.asyncio import (
+    AsyncEngine,
+    AsyncSession,
+    async_scoped_session,
+    async_sessionmaker,
+    create_async_engine,
+)
+from sqlalchemy.orm import DeclarativeBase, Session
 
 from revisited_lessons.r_config.models import AppConfig, appConfig
 
@@ -39,7 +44,6 @@ def create_engines(config: AppConfig) -> dict[EngineType, AsyncEngine]:
 
 
 class RoutingSession(Session):
-
     def __init__(self, engines: dict[EngineType, AsyncEngine]):
         super().__init__()
         self.engines = engines
@@ -62,8 +66,7 @@ session = async_scoped_session(
 )
 
 
-class Base(DeclarativeBase):
-    ...
+class Base(DeclarativeBase): ...
 
 
 @asynccontextmanager

@@ -1,11 +1,12 @@
 import re
+
 from ..errors import CollectionParserException
 from ..utils import is_collection, is_folder, is_requestitem
 from .folder import Folder
 from .requestitem import RequestItem
 
 
-class Collection(object):
+class Collection:
     def __init__(self, collection=None):
         if (collection is None) or (
             not isinstance(collection, dict) or (not is_collection(collection))

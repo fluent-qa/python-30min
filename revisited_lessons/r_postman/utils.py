@@ -29,16 +29,12 @@ def is_requestitem(item):
 
 
 def is_request(item):
-    return (
-        isinstance(item, dict) and ("method" in item) and ("item" not in item)
-    )
+    return isinstance(item, dict) and ("method" in item) and ("item" not in item)
 
 
 def is_response(item):
     return (
-        isinstance(item, dict)
-        and ("originalRequest" in item)
-        and ("item" not in item)
+        isinstance(item, dict) and ("originalRequest" in item) and ("item" not in item)
     )
 
 
@@ -47,11 +43,7 @@ def is_folder(item):
 
 
 def is_collection(item):
-    return (
-        isinstance(item, dict)
-        and ("info" in item)
-        and ("schema" in item["info"])
-    )
+    return isinstance(item, dict) and ("info" in item) and ("schema" in item["info"])
 
 
 def format_path(path):
@@ -65,9 +57,7 @@ def is_disabled(item):
 
 def map_to_dict(items):
     return {
-        item.get("key"): item.get("value")
-        for item in items
-        if not is_disabled(item)
+        item.get("key"): item.get("value") for item in items if not is_disabled(item)
     }
 
 
@@ -78,14 +68,9 @@ def strip_charset(item):
 
 def camelize(string):
     return "".join(
-        a.capitalize()
-        for a in re.split("([^a-zA-Z0-9])", string)
-        if a.isalnum()
+        a.capitalize() for a in re.split("([^a-zA-Z0-9])", string) if a.isalnum()
     )
 
 
 def sanitized(name):
-    return name and re.sub(
-        "^[^a-zA-Z_]+", "", re.sub("[^0-9a-zA-Z_]", "", name)
-    )
-
+    return name and re.sub("^[^a-zA-Z_]+", "", re.sub("[^0-9a-zA-Z_]", "", name))

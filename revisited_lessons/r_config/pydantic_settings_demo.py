@@ -7,9 +7,10 @@ class DemoSettings(BaseSettings):
         pyproject_toml_depth=1,
         env_file=".env",
         env_file_encoding="utf-8",
-        validate_default=False)
-    first_super_password: str = Field("password",validate_default=False)
+        validate_default=False,
+    )
+    first_super_password: str = Field("password", validate_default=False)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     print(DemoSettings().first_super_password)

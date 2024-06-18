@@ -13,7 +13,7 @@ def from_collection(postmanfile=None):
         raise OpenmanException("Empty file is not allowed")
     if not os.path.isfile(postmanfile):
         raise FileNotFoundError("Postman collection not found")
-    with open(postmanfile, "r") as f:
+    with open(postmanfile) as f:
         return json.load(f)
 
 
@@ -21,7 +21,7 @@ def from_ignore(ignorefile=None):
     ignoreschema = {}
     if not ignorefile:
         return ignoreschema
-    with open(ignorefile, "r") as f:
+    with open(ignorefile) as f:
         try:
             ignoreschema = yaml.safe_load(f)
         except yaml.YAMLError:

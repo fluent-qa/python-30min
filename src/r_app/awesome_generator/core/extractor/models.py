@@ -1,10 +1,13 @@
-from pydantic import BaseModel
 from enum import Enum
+
+from pydantic import BaseModel
 
 
 class GithubSearchModel(BaseModel):
     keyword_search_url: str = "https://api.github.com/search/repositories?q="
-    topic_search_url: str = "https://api.github.com/search/repositories?q=topic:{topic}+is:featured"
+    topic_search_url: str = (
+        "https://api.github.com/search/repositories?q=topic:{topic}+is:featured"
+    )
     github_base_url: str = "https://github.com"
 
     def keyword_url(self, keyword: str) -> str:
@@ -60,7 +63,7 @@ websites_to_search_articles = [
     "stackoverflow.blog",  # Stack Overflow Blog
     "martinfowler.com",  # Martin Fowler's Blog (Software Design, Patterns)
     "acm.org/technews",  # ACM TechNews
-    "spectrum.ieee.org/computing"  # IEEE Spectrum's computing section
+    "spectrum.ieee.org/computing",  # IEEE Spectrum's computing section
 ]
 
 websites_to_search_courses = [
@@ -73,8 +76,7 @@ websites_to_search_courses = [
     "udacity.com",
     "codecademy.com",
     "futurelearn.com",
-    "skillshare.com"
-    "linkedin.com/learning",
+    "skillshare.com" "linkedin.com/learning",
 ]
 
 websites_to_search_books = [
@@ -87,7 +89,7 @@ websites_to_search_books = [
     "abebooks.com",
     "springer.com",
     "oreilly.com",
-    "packtpub.com"
+    "packtpub.com",
 ]
 
 websites_to_search_research = [
@@ -100,7 +102,7 @@ websites_to_search_research = [
     "researchgate.net",
     "pubmed.ncbi.nlm.nih.gov",
     "arxiv.org",
-    "ncbi.nlm.nih.gov"
+    "ncbi.nlm.nih.gov",
 ]
 
 websites_to_search_podcasts = [
@@ -113,7 +115,7 @@ websites_to_search_podcasts = [
     "podtail.com",
     "podcasts.apple.com",
     "player.fm",
-    "overcast.fm"
+    "overcast.fm",
 ]
 
 websites_to_search_videos = [
@@ -130,7 +132,7 @@ websites_to_search_tools_software = [
     "capterra.com",
     "sourceforge.net",
     "softpedia.com",
-    "g2.com"
+    "g2.com",
 ]
 
 websites_to_search_conferences_or_events = [
@@ -139,7 +141,7 @@ websites_to_search_conferences_or_events = [
     "10times.com",
     "conferenceseries.com",
     "techmeme.com/events",  # for tech-related events
-    "lanyrd.com"
+    "lanyrd.com",
 ]
 
 websites_to_search_slides_or_presentations = [
@@ -148,7 +150,7 @@ websites_to_search_slides_or_presentations = [
     "academia.edu",  # Some researchers share their presentations here
     "prezi.com",
     "slideboom.com",
-    "authorstream.com"
+    "authorstream.com",
 ]
 
 websites_to_search = {
@@ -160,7 +162,7 @@ websites_to_search = {
     GoogleSearchMode.VIDEOS: websites_to_search_videos,
     GoogleSearchMode.TOOLS_SOFTWARE: websites_to_search_tools_software,
     GoogleSearchMode.CONFERENCES_EVENTS: websites_to_search_conferences_or_events,
-    GoogleSearchMode.SLIDES_PRESENTATIONS: websites_to_search_slides_or_presentations
+    GoogleSearchMode.SLIDES_PRESENTATIONS: websites_to_search_slides_or_presentations,
 }
 
 terms_to_search = {
@@ -172,5 +174,5 @@ terms_to_search = {
     GoogleSearchMode.VIDEOS: "(video OR lecture OR webinar)",
     GoogleSearchMode.TOOLS_SOFTWARE: "(software OR tool OR utility OR app OR platform OR service)",
     GoogleSearchMode.CONFERENCES_EVENTS: "(conference OR event OR workshop OR seminar OR symposium OR tech talk)",
-    GoogleSearchMode.SLIDES_PRESENTATIONS: "(slides OR presentation OR deck OR ppt OR powerpoint OR keynote)"
+    GoogleSearchMode.SLIDES_PRESENTATIONS: "(slides OR presentation OR deck OR ppt OR powerpoint OR keynote)",
 }

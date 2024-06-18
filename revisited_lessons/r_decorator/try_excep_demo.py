@@ -3,19 +3,20 @@ from __future__ import annotations
 import inspect
 import json
 import logging
-from typing import Callable, Union
+from collections.abc import Callable
 
 import requests
 from requests import HTTPError
 
 
 class ExceptionHandlerDecorator:
-
-    def __init__(self, except_handler: Callable,
-                 except_handler_kwargs: dict = None,
-                 exception_type: Union[Exception, tuple[Exception]] = Exception,
-                 logger: logging.Logger = logging.getLogger(),
-                 ):
+    def __init__(
+        self,
+        except_handler: Callable,
+        except_handler_kwargs: dict = None,
+        exception_type: Exception | tuple[Exception] = Exception,
+        logger: logging.Logger = logging.getLogger(),
+    ):
         """
 
         :param exp_handler:
@@ -45,8 +46,8 @@ class ExceptionHandlerDecorator:
         handled_function_kwargs: dict,
         except_handler: Callable,
         except_handler_kwargs: dict,
-        exception_type: Union[Exception, tuple[Exception]],
-        logger: logging.Logger
+        exception_type: Exception | tuple[Exception],
+        logger: logging.Logger,
     ):
         try:
             try_value = handled_function(
@@ -71,7 +72,9 @@ class ExceptionHandlerDecorator:
             if except_handler_parameters.get("f_name"):
                 except_handler_kwargs["f_name"] = f_name
 
-            logger.exception("TryExcept decorator handled an exception. Traceback below.")
+            logger.exception(
+                "TryExcept decorator handled an exception. Traceback below."
+            )
 
             except_value = except_handler(**except_handler_kwargs)
 
@@ -83,7 +86,7 @@ class ExceptionHandlerDecorator:
         except_handler_kwargs: dict,
         exception_type: Exception,
         logger: logging.Logger,
-        **kwargs
+        **kwargs,
     ):
         def wrapper(*handled_function_args, **handled_function_kwargs):
             return ExceptionHandlerDecorator.tryexcept(
@@ -93,7 +96,7 @@ class ExceptionHandlerDecorator:
                 except_handler=except_handler,
                 except_handler_kwargs=except_handler_kwargs,
                 exception_type=exception_type,
-                logger=logger
+                logger=logger,
             )
 
         return wrapper
@@ -103,13 +106,12 @@ class ExceptionHandlerDecorator:
         func: Callable = None,
         exception_type=None,
     ):
-
         _kwargs = {
             "handled_function": func,
             "except_handler": self.except_handler,
             "except_handler_kwargs": self.except_handler_kwargs,
             "exception_type": exception_type or self.exception_type,
-            "logger": self.logger
+            "logger": self.logger,
         }
 
         wrapper = ExceptionHandlerDecorator.decorator(**_kwargs)
@@ -117,11 +119,14 @@ class ExceptionHandlerDecorator:
         return wrapper
 
 
-def my_custom_exception_handling_function(f_exc: Exception, f_locals: dict, f_name: str, message: str):
+def my_custom_exception_handling_function(
+    f_exc: Exception, f_locals: dict, f_name: str, message: str
+):
     print(f"Custom exception handler error message: {message}")
     print(f"Custom exception handler was called by the '{f_name}' function.")
     print(
-        f"Available local variables in the callee namespace at the moment of exception: \n {json.dumps(obj=f_locals, indent=1, default=str)}")
+        f"Available local variables in the callee namespace at the moment of exception: \n {json.dumps(obj=f_locals, indent=1, default=str)}"
+    )
     print(f"The exception raised was of type {type(f_exc)}")
     return {"exc": f_exc, **f_locals, "message": message}
 
@@ -129,7 +134,8 @@ def my_custom_exception_handling_function(f_exc: Exception, f_locals: dict, f_na
 mytryexc = ExceptionHandlerDecorator(
     exception_type=HTTPError,
     except_handler=my_custom_exception_handling_function,
-    except_handler_kwargs={"message": "There was an error!"})
+    except_handler_kwargs={"message": "There was an error!"},
+)
 
 
 @mytryexc
@@ -144,6 +150,6 @@ def main():
     print(result)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
     print("complete who running")
