@@ -1,4 +1,3 @@
-
 import connexion
 
 from .fakemock_resolver import FakerMockResolver

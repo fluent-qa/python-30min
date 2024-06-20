@@ -1,9 +1,9 @@
 import os
 
-from pydantic_settings import BaseSettings
+from pydantic import BaseModel
 
 
-class AppConfig(BaseSettings):
+class AppConfig(BaseModel):
     ENV: str = "development"
     DEBUG: bool = True
     APP_HOST: str = "0.0.0.0"

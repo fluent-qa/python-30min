@@ -1,32 +1,39 @@
-import asyncio
-import contextvars
-import threading
+from __future__ import annotations
 
-context = threading.local()
-context.name = "current"
+from contextvars import ContextVar
 
-
-request_id = contextvars.ContextVar("request_id_demo")
+var: ContextVar[int | str] = ContextVar('var', default="var")
 
 
-async def get_id():
-    print(f"Request ID: {request_id.get()}")
+def set_var_in_same_task():
+    token1 = var.set("this is value")
+    token2 = var.set("this is another value")
+    return token1, token2
 
 
-async def new_request_coro(req_id):
-    # Set Value
-    request_id.set(req_id)
-    await get_id()
-    print(f"Request ID (Outer): {request_id.get()}")
+async def coro():
+    var.set('value in coro')
+    print(var.get())
 
 
 async def main():
-    tasks = []
-    for req_id in range(1, 5):
-        tasks.append(asyncio.create_task(new_request_coro(req_id)))
+    var.set('value in main')
+    print(var.get())
+    await coro()  ## switch
+    print(var.get())
 
-    await asyncio.gather(*tasks)
 
+if __name__ == '__main__':
+    t1, t2 = set_var_in_same_task()
+    print(var.get())
+    var.reset(t2)
+    print(var.get())
+    var.set(123)
+    print(var.get())
+    var.reset(t1)
+    print(var.get())
 
-if __name__ == "__main__":
+    print("run asyncio")
+    import asyncio
+
     asyncio.run(main())

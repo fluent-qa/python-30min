@@ -34,6 +34,10 @@ dependencies = [
     "bokeh>=3.4.1",
     "marimo>=0.6.19",
     "nbconvert[test]>=7.16.4",
+    "loguru>=0.7.2",
+    "psycopg[binary]>=3.1.19",
+    "sqlmodel>=0.0.19",
+    "alembic>=1.13.1",
 ]
 requires-python = ">=3.11"
 readme = "README.md"

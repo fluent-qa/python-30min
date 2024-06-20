@@ -1,4 +1,3 @@
-
 from pydantic import BaseModel
 from revisited.core.conf import setting_to_model, settings
 
