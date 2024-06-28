@@ -1,7 +1,7 @@
-from sqlalchemy import text
+from sqlalchemy import text, insert
 from sqlmodel import Session, SQLModel, select
 
-from revisited_lessons.r_db.setup import engine, DemoHero
+from revisited_lessons.r_db.setup import engine, DemoHero, User
 
 
 def exec_sql(sql_text: text):
@@ -21,6 +21,19 @@ def select_plain_sql():
     print(result.fetchall())
     conn.commit()
     conn.close()
+
+
+def insert_statement():
+    statement = insert(User)
+    print(statement.compile(compile_kwargs={"literal_binds": True}))
+    with engine.begin() as conn:
+        conn.execute(
+            insert(User),
+            [
+                {"name": "sandy", "fullname": "Sandy Cheeks"},
+                {"name": "gary", "fullname": "Gary the Snail"},
+            ],
+        )
 
 
 def with_sql_model_session(statement):
@@ -45,3 +58,4 @@ if __name__ == '__main__':
     hero = result[0]
     print(hero)
     with_sql_model_session_save(DemoHero(name='save-it', age=120))
+    insert_statement()
