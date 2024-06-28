@@ -13,6 +13,7 @@ tutorials:
   - https://github.com/mouredev/Hello-Python.git
   - https://github.com/talkpython
   - https://www.pluralsight.com/
+  - https://github.com/testdrivenio/fastapi-sqlmodel-alembic.git
 blogs:
   - https://auth0.com/blog/sqlalchemy-orm-tutorial-for-python-developers/
   - https://www.digitalocean.com/community/tutorials
