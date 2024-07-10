@@ -14,6 +14,9 @@ tutorials:
   - https://github.com/talkpython
   - https://www.pluralsight.com/
   - https://github.com/testdrivenio/fastapi-sqlmodel-alembic.git
+  - https://github.com/rochacbruno/fastapi-workshop.git
+  - https://martinxpn.medium.com/the-grand-finale-wrapping-up-our-100-days-of-python-journey-52b4a8e9e7b6
+  - https://github.com/realpython
 blogs:
   - https://auth0.com/blog/sqlalchemy-orm-tutorial-for-python-developers/
   - https://www.digitalocean.com/community/tutorials
@@ -25,6 +28,7 @@ blogs:
   - https://github.com/realpython/materials/tree/master
   - https://github.com/palewire/python-open-source-template.git
   - https://help.rainforestqa.com/docs/who-should-own-qa
+  - https://webscraping.fyi/overview/languages/#html-parsers
 podcast:
   - https://www.pythonpodcast.com/
   - https://www.educative.io/
