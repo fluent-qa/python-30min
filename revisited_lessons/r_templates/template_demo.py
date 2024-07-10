@@ -82,7 +82,7 @@ env.add_extension('jinja2.ext.debug')
 env.add_extension('jinja2.ext.i18n')
 
 
-def render_tmplate_files():
+def render_template_files():
     template = env.get_template("examples.txt")
     result = template.render(persons=persons, cars=cars)
     print(result)
@@ -98,8 +98,8 @@ def html_render():
     print(output)
 
 
-def prefix_str(content: str,more_content:str) -> str:
-    return "prefix-" + content+"-"+str(more_content)
+def prefix_str(content: str, more_content: str) -> str:
+    return "prefix-" + content + "-" + str(more_content)
 
 
 env.globals["prefix_str"] = prefix_str
@@ -110,5 +110,5 @@ if __name__ == '__main__':
     template_with_class()
     template_with_dict()
     escape_data()
-    render_tmplate_files()
+    render_template_files()
     html_render()
